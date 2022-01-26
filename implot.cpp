@@ -1903,11 +1903,14 @@ bool UpdateInput(ImPlotPlot& plot) {
                 float correction = (plot.Hovered && equal_zoom) ? 0.5f : 1.0f;
                 const double plot_l = x_axis.PixelsToPlot(plot.PlotRect.Min.x - rect_size.x * tx * zoom_rate * correction);
                 const double plot_r = x_axis.PixelsToPlot(plot.PlotRect.Max.x + rect_size.x * (1 - tx) * zoom_rate * correction);
-                x_axis.SetMin(x_axis.IsInverted() ? plot_r : plot_l);
-                x_axis.SetMax(x_axis.IsInverted() ? plot_l : plot_r);
-                if (axis_equal && x_axis.OrthoAxis != NULL)
-                    x_axis.OrthoAxis->SetAspect(x_axis.GetAspect());
-                changed = true;
+                double delta = plot_r - plot_l;
+                if(delta < x_axis.zoomOutMax) {
+                    x_axis.SetMin(x_axis.IsInverted() ? plot_r : plot_l);
+                    x_axis.SetMax(x_axis.IsInverted() ? plot_l : plot_r);
+                    if (axis_equal && x_axis.OrthoAxis != NULL)
+                        x_axis.OrthoAxis->SetAspect(x_axis.GetAspect());
+                    changed = true;
+                }
             }
         }
         for (int i = 0; i < IMPLOT_NUM_Y_AXES; i++) {

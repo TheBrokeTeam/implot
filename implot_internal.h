@@ -604,6 +604,7 @@ struct ImPlotAxis
     ImPlotRange          Range;
     ImPlotRange          FitExtents;
     ImPlotAxis*          OrthoAxis;
+    double               zoomOutMax;
     double*              LinkedMin;
     double*              LinkedMax;
     int                  PickerLevel;
@@ -643,6 +644,7 @@ struct ImPlotAxis
         FormatterData    = NULL;
         Enabled          = Hovered = Held = FitThisFrame = HasRange = HasFormatSpec = false;
         ShowDefaultTicks = true;
+        zoomOutMax       = 100000000;
     }
 
     inline void Reset() {
@@ -944,6 +946,7 @@ struct ImPlotPlot
     bool                 Selecting;
     bool                 Selected;
     bool                 ContextLocked;
+    double               zoomOutMax;
 
     ImPlotPlot() {
         Flags             = PreviousFlags = ImPlotFlags_None;
