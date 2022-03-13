@@ -1901,16 +1901,20 @@ bool UpdateInput(ImPlotPlot& plot) {
             const bool equal_locked = (equal_zoom != false) && x_axis.OrthoAxis->IsInputLocked();
             if (x_hov[i] && !x_axis.IsInputLocked() && !equal_locked) {
                 float correction = (plot.Hovered && equal_zoom) ? 0.5f : 1.0f;
-                const double plot_l = x_axis.PixelsToPlot(plot.PlotRect.Min.x - rect_size.x * tx * zoom_rate * correction);
-                const double plot_r = x_axis.PixelsToPlot(plot.PlotRect.Max.x + rect_size.x * (1 - tx) * zoom_rate * correction);
+                double plot_l = x_axis.PixelsToPlot(plot.PlotRect.Min.x - rect_size.x * tx * zoom_rate * correction);
+                double plot_r = x_axis.PixelsToPlot(plot.PlotRect.Max.x + rect_size.x * (1 - tx) * zoom_rate * correction);
                 double delta = plot_r - plot_l;
-                if(delta < x_axis.zoomOutMax) {
-                    x_axis.SetMin(x_axis.IsInverted() ? plot_r : plot_l);
-                    x_axis.SetMax(x_axis.IsInverted() ? plot_l : plot_r);
-                    if (axis_equal && x_axis.OrthoAxis != NULL)
-                        x_axis.OrthoAxis->SetAspect(x_axis.GetAspect());
-                    changed = true;
+
+                if(delta > x_axis.zoomOutMax) {
+                    delta = x_axis.zoomOutMax;
+                    plot_r = plot_l + delta;
                 }
+
+                x_axis.SetMin(x_axis.IsInverted() ? plot_r : plot_l);
+                x_axis.SetMax(x_axis.IsInverted() ? plot_l : plot_r);
+                if (axis_equal && x_axis.OrthoAxis != NULL)
+                    x_axis.OrthoAxis->SetAspect(x_axis.GetAspect());
+                changed = true;
             }
         }
         for (int i = 0; i < IMPLOT_NUM_Y_AXES; i++) {
