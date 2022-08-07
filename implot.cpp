@@ -1906,8 +1906,9 @@ bool UpdateInput(ImPlotPlot& plot) {
                 double delta = plot_r - plot_l;
 
                 if(delta > x_axis.zoomOutMax) {
-                    delta = x_axis.zoomOutMax;
-                    plot_r = plot_l + delta;
+//                    delta = x_axis.zoomOutMax;
+//                    plot_r = plot_l + delta;
+                    return false;
                 }
 
                 x_axis.SetMin(x_axis.IsInverted() ? plot_r : plot_l);
