@@ -1174,8 +1174,8 @@ void AddTicksTime(const ImPlotRange& range, float plot_width, ImPlotTickCollecti
                 tick_maj.Level = 1;
                 LabelTickTime(tick_maj,ticks.TextBuffer,t1, last_major == NULL ? fmtf : fmt1);
                 const char* this_major = ticks.TextBuffer.Buf.Data + tick_maj.TextOffset;
-                if (last_major && TimeLabelSame(last_major,this_major))
-                    tick_maj.ShowLabel = false;
+//                if (last_major && TimeLabelSame(last_major,this_major))
+//                    tick_maj.ShowLabel = false;
                 last_major = this_major;
                 ticks.Append(tick_maj);
             }
